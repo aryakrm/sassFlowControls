@@ -1,0 +1,112 @@
+@import "./functions";
+
+$color-primary: blue;
+$color-secondary: red;
+$color-tertiary: green;
+
+@mixin flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@mixin borderLine($color) {
+  border: convert(1) solid $color;
+  padding: conver(10);
+}
+@mixin font($size, $color) {
+  text-align: center;
+  font-size: $size;
+  color: $color;
+}
+
+div {
+  @include flexCenter;
+  @include borderLine($color-secondary);
+  flex-direction: column;
+  h1 {
+    @include font(convert(24), $color-tertiary);
+    border-bottom: convert(1) solid $color-primary;
+  }
+  h2 {
+    @extend h1;
+    @include borderLine($color-secondary);
+    font-size: convert(22);
+    padding: convert(10);
+  }
+  section {
+    margin: convert(10);
+    &:nth-of-type(1) {
+      @include flexCenter;
+      @include borderLine($color-tertiary);
+      padding: 0;
+      article {
+        &:nth-of-type(odd) {
+          @include font(convert(16), $color-primary);
+          @include borderLine($color-tertiary);
+        }
+        &:nth-of-type(even) {
+          @include font(convert(16), $color-secondary);
+          @include borderLine($color-tertiary);
+        }
+      }
+    }
+    &:nth-of-type(2) {
+      @include flexCenter();
+      gap: convert(25);
+      .fs-1rem {
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+      .fs-2rem {
+        align-items: center;
+        justify-content: flex-start;
+      }
+      .fs-3rem {
+        align-items: flex-end;
+        justify-content: flex-start;
+      }
+      div {
+        display: flex;
+        width: convert(45);
+        height: convert(45);
+      }
+
+      $fs: 1rem, 2rem, 3rem;
+      @each $size in $fs {
+        .fs-#{$size} {
+          font-size: $size;
+        }
+      }
+      $base-color: white;
+      @for $i from 1 through 19 {
+        div:nth-of-type(#{$i}) {
+          background-color: darken($base-color, $i * 5%);
+
+          @if $i < 10 {
+            color: black;
+          } @else if $i == 10 {
+            color: red;
+            background-color: blue;
+          } @else if $i < 19 && $i > 10 {
+            color: lighten(black, $i * 5%);
+          } @else if $i > 1 && $i < 10 {
+            color: darken(white, $i * 10%);
+          } @else {
+            color: white;
+          }
+          @for $i from 1 through 12 {
+            align-items: flex-start;
+          }
+        }
+      }
+    }
+    &:nth-of-type(3) {
+      @include flexCenter;
+      @include borderLine($color-primary);
+      padding: convert(10);
+      article {
+        @include font(convert(24), $color-tertiary);
+      }
+    }
+  }
+}
